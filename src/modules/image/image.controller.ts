@@ -20,17 +20,17 @@ export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
   @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({ type: ImageResponseDTO, isArray: true })
-  @Get('all')
-  public getAllImages() {
-    return this.imageService.getAllImages();
-  }
-
-  @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: ImageResponseDTO })
   @Post('create')
   public createImage(@Body() body: CreateImageDTO) {
     return this.imageService.createImage(body);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: ImageResponseDTO, isArray: true })
+  @Get('all')
+  public getAllImages() {
+    return this.imageService.getAllImages();
   }
 
   @HttpCode(HttpStatus.OK)
