@@ -7,10 +7,12 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResponseDTO } from '../shared/dto/delete-response.dto';
 import { CreateImageDTO } from './dto/create-image.dto';
+import { ImageDeleteQueryDto } from './dto/image-delete-query.dto';
 import { ImageResponseDTO } from './dto/image-response.dto';
 import { ImageService } from './image.service';
 
@@ -45,5 +47,12 @@ export class ImageController {
   @Delete('delete/:id')
   public deleteImage(@Param('id') id: string) {
     return this.imageService.deleteImage(id);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: DeleteResponseDTO })
+  @Delete('delete-multiple')
+  public deleteMultiple(@Query() query: ImageDeleteQueryDto) {
+    return this.imageService.deleteMultiple(query);
   }
 }
