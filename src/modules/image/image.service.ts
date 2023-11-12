@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Schema } from 'mongoose';
 import { ResponseHelper } from '../shared/util/response-helper.util';
 import { CreateImageDTO } from './dto/create-image.dto';
+import { ImageDeleteQueryDto } from './dto/image-delete-query.dto';
 import { Image } from './schema/image.schema';
 
 @Injectable()
@@ -36,5 +37,13 @@ export class ImageService {
     const deletedImage = await this.imageModel.findByIdAndDelete(id);
 
     return ResponseHelper.deleteResponse(deletedImage ? true : false);
+  }
+
+  public async deleteMultiple(query: ImageDeleteQueryDto) {
+    const deleted = await this.imageModel.deleteMany({
+      _id: { $in: query.ids },
+    });
+
+    return ResponseHelper.deleteResponse(deleted?.acknowledged ? true : false);
   }
 }
